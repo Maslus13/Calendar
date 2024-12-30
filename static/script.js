@@ -43,7 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 checkbox.addEventListener('change', () => {
                     state[checkbox.id] = checkbox.checked;
-                    checkbox.parentNode.style.backgroundColor = checkbox.checked ? 'lightgreen' : '';
+                    if (checkbox.checked) {
+                        dayDiv.classList.add('checked');
+                    } else {
+                        const allUnchecked = Array.from(dayDiv.querySelectorAll('input[type="checkbox"]')).every(cb => !cb.checked);
+                        if (allUnchecked) {
+                            dayDiv.classList.remove('checked');
+                        }
+                    }
                 });
 
                 const checkboxLabel = document.createElement('label');
@@ -67,7 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const checkbox = document.getElementById(key);
                 if (checkbox) {
                     checkbox.checked = value;
-                    checkbox.parentNode.style.backgroundColor = value ? 'lightgreen' : '';
+                    if (value) {
+                        checkbox.parentNode.parentNode.classList.add('checked');
+                    }
                     state[key] = value;
                 }
             }
