@@ -6,7 +6,7 @@ body {
 
 .calendar {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 }
 
@@ -70,10 +70,6 @@ body {
 
 /* Media queries for mobile responsiveness */
 @media (max-width: 768px) {
-    .calendar {
-        grid-template-columns: 1fr;
-    }
-
     .days {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -82,8 +78,8 @@ body {
         margin-bottom: 20px;
     }
 
-    .day {
-        flex-direction: column;
+    .day label {
+        flex-direction: row;
     }
 
     .controls button {
