@@ -52,8 +52,10 @@ monthNames.forEach((month, index) => {
     calendar.appendChild(monthDiv);
 });
 
+const state = {};
+
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('http://127.0.0.1:5000/load')
+    fetch('/load')
         .then(response => response.json())
         .then(data => {
             for (const [key, value] of Object.entries(data)) {
@@ -66,6 +68,24 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Błąd ładowania danych:', error));
 });
+
+const saveButton = document.getElementById('saveButton');
+
+saveButton.addEventListener('click', () => {
+    console.log('Stan przed zapisem:', state);
+    fetch('/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(state),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Odpowiedź serwera:', data);
+        alert(data.message || 'Zapisano dane!');
+    })
+    .catch(error => console.error('Błąd zapisu:', error));
+});
+
 
 saveButton.addEventListener('click', () => {
     console.log('Stan przed zapisem:', state);  // Drukowanie stanu przed wysłaniem
