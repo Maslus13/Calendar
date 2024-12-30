@@ -35,17 +35,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const label = document.createElement('span');
             label.textContent = day;
 
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = `${month}-${day}`;
-            checkbox.checked = false;
+            ["PALENIE", "TRENING", "WITAMINY"].forEach(activity => {
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `${month}-${day}-${activity}`;
+                checkbox.checked = false;
 
-            checkbox.addEventListener('change', () => {
-                state[checkbox.id] = checkbox.checked;
+                checkbox.addEventListener('change', () => {
+                    state[checkbox.id] = checkbox.checked;
+                    checkbox.parentNode.style.backgroundColor = checkbox.checked ? 'lightgreen' : '';
+                });
+
+                const checkboxLabel = document.createElement('label');
+                checkboxLabel.textContent = activity;
+                checkboxLabel.appendChild(checkbox);
+
+                dayDiv.appendChild(checkboxLabel);
             });
 
-            dayDiv.appendChild(label);
-            dayDiv.appendChild(checkbox);
             daysGrid.appendChild(dayDiv);
         }
 
@@ -60,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const checkbox = document.getElementById(key);
                 if (checkbox) {
                     checkbox.checked = value;
+                    checkbox.parentNode.style.backgroundColor = value ? 'lightgreen' : '';
                     state[key] = value;
                 }
             }
