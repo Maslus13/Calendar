@@ -33,9 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
             dayDiv.classList.add('day');
 
             const label = document.createElement('span');
+            label.classList.add('day-number'); // Dodajemy klasę dla numeru dnia
             label.textContent = day;
 
-            ["PALENIE", "TRENING", "WITAMINY"].forEach(activity => {
+            const activities = ["PALENIE", "TRENING", "WITAMINY"];
+            activities.forEach(activity => {
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.id = `${month}-${day}-${activity}`;
@@ -44,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 checkbox.addEventListener('change', () => {
                     state[checkbox.id] = checkbox.checked;
                     if (checkbox.checked) {
-                        checkbox.parentNode.classList.add('checked');
+                        dayDiv.classList.add('checked');
                     } else {
                         const allUnchecked = Array.from(dayDiv.querySelectorAll('input[type="checkbox"]')).every(cb => !cb.checked);
                         if (allUnchecked) {
@@ -60,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 dayDiv.appendChild(checkboxLabel);
             });
 
+            dayDiv.insertBefore(label, dayDiv.firstChild); // Upewnijmy się, że numer dnia jest na początku
             daysGrid.appendChild(dayDiv);
         }
 
@@ -75,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (checkbox) {
                     checkbox.checked = value;
                     if (value) {
-                        checkbox.parentNode.classList.add('checked');
+                        checkbox.parentNode.parentNode.classList.add('checked');
                     }
                     state[key] = value;
                 }
