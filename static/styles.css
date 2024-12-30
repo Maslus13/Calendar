@@ -58,6 +58,11 @@ body {
     background-color: lightgreen;
 }
 
+.day .day-number {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
 .controls {
     margin-top: 20px;
 }
