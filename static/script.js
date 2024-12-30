@@ -35,16 +35,31 @@ document.addEventListener('DOMContentLoaded', () => {
             const label = document.createElement('span');
             label.textContent = day;
 
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = `${month}-${day}`;
+            ["PALENIE", "TRENING", "WITAMINY"].forEach(activity => {
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `${month}-${day}-${activity}`;
+                checkbox.checked = false;
 
-            checkbox.addEventListener('change', () => {
-                state[checkbox.id] = checkbox.checked;
+                checkbox.addEventListener('change', () => {
+                    state[checkbox.id] = checkbox.checked;
+                    if (checkbox.checked) {
+                        checkbox.parentNode.classList.add('checked');
+                    } else {
+                        const allUnchecked = Array.from(dayDiv.querySelectorAll('input[type="checkbox"]')).every(cb => !cb.checked);
+                        if (allUnchecked) {
+                            dayDiv.classList.remove('checked');
+                        }
+                    }
+                });
+
+                const checkboxLabel = document.createElement('label');
+                checkboxLabel.textContent = activity;
+                checkboxLabel.appendChild(checkbox);
+
+                dayDiv.appendChild(checkboxLabel);
             });
 
-            dayDiv.appendChild(label);
-            dayDiv.appendChild(checkbox);
             daysGrid.appendChild(dayDiv);
         }
 
@@ -59,6 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const checkbox = document.getElementById(key);
                 if (checkbox) {
                     checkbox.checked = value;
+                    if (value) {
+                        checkbox.parentNode.classList.add('checked');
+                    }
                     state[key] = value;
                 }
             }
