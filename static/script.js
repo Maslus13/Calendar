@@ -1,6 +1,8 @@
 const monthNames = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
 const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
 
+const getStartingDay = (year, month) => new Date(year, month, 1).getDay();
+
 const calendar = document.getElementById('calendar');
 const saveButton = document.getElementById('saveButton');
 const year = 2025;
@@ -10,6 +12,7 @@ const state = {};
 document.addEventListener('DOMContentLoaded', () => {
     monthNames.forEach((month, index) => {
         const days = daysInMonth(year, index);
+        const startingDay = getStartingDay(year, index);
         const monthDiv = document.createElement('div');
         monthDiv.classList.add('month');
 
@@ -28,12 +31,17 @@ document.addEventListener('DOMContentLoaded', () => {
             daysGrid.appendChild(dayHeader);
         });
 
+        for (let i = 0; i < startingDay; i++) {
+            const emptyDiv = document.createElement('div');
+            daysGrid.appendChild(emptyDiv);
+        }
+
         for (let day = 1; day <= days; day++) {
             const dayDiv = document.createElement('div');
             dayDiv.classList.add('day');
 
             const label = document.createElement('span');
-            label.classList.add('day-number'); // Dodajemy klasę dla numeru dnia
+            label.classList.add('day-number');
             label.textContent = day;
 
             const activities = ["PALENIE", "TRENING", "WITAMINY"];
@@ -62,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 dayDiv.appendChild(checkboxLabel);
             });
 
-            dayDiv.insertBefore(label, dayDiv.firstChild); // Upewnijmy się, że numer dnia jest na początku
+            dayDiv.insertBefore(label, dayDiv.firstChild);
             daysGrid.appendChild(dayDiv);
         }
 
