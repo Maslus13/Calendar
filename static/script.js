@@ -9,6 +9,18 @@ const year = 2025;
 
 const state = {};
 
+const updateDayBackground = (dayDiv) => {
+    const checkboxes = dayDiv.querySelectorAll('input[type="checkbox"]');
+    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+
+    if (checkedCount > 0) {
+        const percentage = (checkedCount / checkboxes.length) * 100;
+        dayDiv.style.background = `linear-gradient(to bottom, lightgreen ${percentage}%, white ${percentage}%)`;
+    } else {
+        dayDiv.style.background = 'white';
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     monthNames.forEach((month, index) => {
         const days = daysInMonth(year, index);
@@ -53,14 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 checkbox.addEventListener('change', () => {
                     state[checkbox.id] = checkbox.checked;
-                    if (checkbox.checked) {
-                        dayDiv.classList.add('checked');
-                    } else {
-                        const allUnchecked = Array.from(dayDiv.querySelectorAll('input[type="checkbox"]')).every(cb => !cb.checked);
-                        if (allUnchecked) {
-                            dayDiv.classList.remove('checked');
-                        }
-                    }
+                    updateDayBackground(dayDiv);
                 });
 
                 const checkboxLabel = document.createElement('label');
@@ -85,9 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const checkbox = document.getElementById(key);
                 if (checkbox) {
                     checkbox.checked = value;
-                    if (value) {
-                        checkbox.parentNode.parentNode.classList.add('checked');
-                    }
+                    updateDayBackground(checkbox.parentNode.parentNode);
                     state[key] = value;
                 }
             }
